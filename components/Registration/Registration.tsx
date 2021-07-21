@@ -4,7 +4,7 @@ import { View, Text } from "react-native"
 const Registration = () => {
     return (
         <View>
-            <Text>Registration</Text>
+            <Text>Registration page 1</Text>
         </View>
     );
 }

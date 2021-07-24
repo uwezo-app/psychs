@@ -24,8 +24,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
     }
 
     const onPress = () => {
-        getMoviesFromApi()
-            .then((data: any) => {
+        getMoviesFromApi().then((data: any) => {
                 console.log(data);
             })
         console.log();

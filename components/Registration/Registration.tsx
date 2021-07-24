@@ -1,17 +1,41 @@
-import React, {useState}  from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useState}  from "react";
+import { StyleSheet, View, Text, TextInput} from "react-native";
 import MaterialStackedLabelTextbox from "../components/MaterialStackedLabelTextbox";
-import MaterialStackedLabelTextbox1 from "../components/MaterialStackedLabelTextbox1";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 
-function Index() {
+
+
+
+
+
+function Registration(props) {
     const [fname, setfname] = useState<string>("");
     const [lname, setlname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>();
     const [cpassword, setcPassword] = useState<string>();
+    
+    
+   
+    
+        let errors = {};
+        let isValid = true;
+        if (password!== "undefined" && cpassword !== "undefined") {
+          
+            if (password!=cpassword) {
+              isValid = false;
+              errors["password"] = "Passwords don't match.";
+              var erry= errors["password"]
+            }
+            else{
+                errors["password"] = "Passwords match.";
+                var erry= errors["password"]
+            }
+          } 
+        
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.style]}>
       <View style={styles.rect}>
         <Text style={styles.signUp}>Sign Up</Text>
         <MaterialStackedLabelTextbox
@@ -35,20 +59,28 @@ function Index() {
           inputStyle="Enter your Email Address"
           style={styles.materialStackedLabelTextbox3}
         ></MaterialStackedLabelTextbox>
-        <MaterialStackedLabelTextbox1
-          label="Password"
-          inputStyle="Please set a password"
-          value={password}
-          onChangeText={setPassword}
-          style={styles.materialStackedLabelTextbox1}
-        ></MaterialStackedLabelTextbox1>
-        <MaterialStackedLabelTextbox1
-          label="Confirm Password"
-          inputStyle="Please confirm set password"
-          value={cpassword}
-          onChangeText={setcPassword}
-          style={styles.materialStackedLabelTextbox12}
-        ></MaterialStackedLabelTextbox1>
+       
+      <View style={[styles.container1]}>
+      <Text style={styles.label}>{props.label || "Password"}</Text>
+      <TextInput
+       placeholder={"Enter your Password"}
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry={true}
+      ></TextInput>
+
+    </View>
+        
+    <View style={[styles.container1]}>
+      <Text style={styles.label}>{props.label || "Confirm Password"}</Text>
+      <TextInput
+       placeholder={"Confirm your Password"}
+        value={cpassword}
+        onChangeText={setcPassword}
+        secureTextEntry={true}
+      ></TextInput>
+      <Text style={styles.label}>{props.label || erry}</Text>
+    </View>
         <MaterialButtonSuccess
           caption="Register"
           style={styles.materialButtonSuccess}
@@ -59,6 +91,33 @@ function Index() {
 }
 
 const styles = StyleSheet.create({
+    container1: {
+        borderBottomWidth: 1,
+        borderColor: "#D9D5DC",
+        width: 300,
+        height:90,
+        marginLeft: 17,
+        backgroundColor: "transparent"
+      },
+      label: {
+        fontSize: 12,
+        textAlign: "left",
+        color: "#000",
+        opacity: 0.6,
+        paddingTop: 30,
+        marginBottom:10
+        
+      },
+      inputStyle: {
+        color: "#000",
+        height: 40,
+        fontSize: 16,
+        alignSelf: "flex-start",
+        flex: 2,
+        lineHeight: 16,
+        paddingTop: 20,
+        paddingBottom: 8
+      },
   container: {
     width: 351,
     height: 520,
@@ -102,12 +161,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
     marginLeft: 17
   },
-  materialStackedLabelTextbox1: {
-    height: 70,
-    width: 298,
-    marginTop: 18,
-    marginLeft: 17
-  },
+
   materialStackedLabelTextbox12: {
     height: 70,
     width: 298,
@@ -123,4 +177,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Index;
+export default Registration;

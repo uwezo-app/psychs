@@ -46,6 +46,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
             value={password}
             onChangeText={setPassword}
             // secureTextEntry
+            secureTextEntry={true}
             autoCompleteType="password"
           />
           <Button

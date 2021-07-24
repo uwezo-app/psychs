@@ -16,14 +16,14 @@ function Index() {
         <Text style={styles.signUp}>Sign Up</Text>
         <MaterialStackedLabelTextbox
           label="First Name"
-          inputStyle="Enter your First Name"
+          inputStyle="Enter Your First Name"
           value={fname}
           onChangeText={setfname}
           style={styles.materialStackedLabelTextbox}
         ></MaterialStackedLabelTextbox>
         <MaterialStackedLabelTextbox
           label="Last Name"
-          inputStyle="Enter your Last Name"
+          inputStyle="Enter Your Last Name"
           value={lname}
           onChangeText={setlname}
           style={styles.materialStackedLabelTextbox2}
@@ -32,7 +32,7 @@ function Index() {
           label="Email "
           value={email}
           onChangeText={setEmail}
-          inputStyle="Enter your Email Address"
+          inputStyle="Enter Your Email Address"
           style={styles.materialStackedLabelTextbox3}
         ></MaterialStackedLabelTextbox>
         <MaterialStackedLabelTextbox1

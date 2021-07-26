@@ -17,6 +17,7 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "rootDir": ".",
     "allowSyntheticDefaultImports": true,
     "paths": {
       "*": ["."],

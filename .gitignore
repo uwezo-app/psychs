@@ -11,3 +11,18 @@ web-build/
 
 # macOS
 .DS_Store
+
+*.log
+*.log.gz
+*.log.bz2
+*.log.xz
+*.log.zip
+*.log.7z
+*.log.tar
+*.log.tar.gz
+*.log.tar.bz2
+*.log.tar.xz
+*.log.tar.zip
+*.log.tar.7z
+*.log.tar.Z
+*.log.tar.Z

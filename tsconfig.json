@@ -20,7 +20,7 @@
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "*": ["."],
+      "*": ["src"],
       "@components/*": ["components/*"],
       "@api/*": ["api/*"]
     }

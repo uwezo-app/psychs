@@ -12,11 +12,13 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "bootstrap": "5.0.2",
     "expo": "~42.0.1",
     "expo-cli": "^4.8.1",
     "expo-status-bar": "~1.0.4",
     "next": "^11.0.1",
     "react": "16.13.1",
+    "react-bootstrap": "^2.0.0-beta.4",
     "react-dom": "^17.0.2",
     "react-google-recaptcha": "^2.1.0",
     "react-hook-form": "^7.12.0",
@@ -28,10 +30,12 @@
     "react-native-text-field": "^4.1.1",
     "react-native-web": "~0.13.12",
     "reactjs": "^1.0.0",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "w3-css": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@types/bootstrap": "^5.0.17",
     "@types/react": "~16.9.35",
     "@types/react-google-recaptcha": "^2.1.2",
     "@types/react-native": "~0.63.2",

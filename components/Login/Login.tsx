@@ -22,7 +22,12 @@ const Login: React.FC<Props> = ({ navigation }) => {
     const navigate = () => {
         navigation.navigate("Registration");
     }
-
+    const navigate1 = () => {
+        navigation.navigate("Home");
+    }
+    const navigate2 = () => {
+        navigation.navigate("Contact");
+    }
     const onPress = () => {
         getMoviesFromApi().then((data: any) => {
                 console.log(data);
@@ -56,6 +61,14 @@ const Login: React.FC<Props> = ({ navigation }) => {
           <Text>
               Don't have an account yet?
               <Text onPress={navigate}>click here</Text>
+          </Text>
+          <Text>
+             Home Page:
+              <Text onPress={navigate1}>click here</Text>
+          </Text>
+          <Text>
+             Contact Us
+              <Text onPress={navigate2}>click here</Text>
           </Text>
       </View>
     );

@@ -1,5 +1,6 @@
 import React, {useRef, useState}  from 'react';
 import { useForm } from "react-hook-form";
+import './Registration.css'
 
 
 
@@ -32,7 +33,8 @@ export default function Registration() {
 
     const password = useRef({});
     password.current = watch("password", "");
-    
+
+     
     
     
      return(
@@ -80,41 +82,41 @@ export default function Registration() {
     )}
 
       <div>
-        <label htmlFor="fname"> First Name</label>
+          <h1>Sign Up</h1>
+        <label htmlFor="fname" > First Name</label>
         <input {...register('fname',{required:true})} type="text" id="fname" name="fname"/>
         {errors.email ? <div>{errors.email.message}</div>:null}
-      </div>
+     
 
-      <div>
+     
         <label htmlFor="lname"> Last Name</label>
         <input {...register('lname',{required:true})} type="text" id="lname" name="lname"/>
         {errors.email ? <div>{errors.email.message}</div>:null}
-      </div>
-
-      <div>
+     
+     
         <label htmlFor="email"> Email Address</label>
         <input {...register('email',{required:true})} type="text" id="email" name="email"/>
         {errors.email ? <div>{errors.email.message}</div>:null}
-      </div>
+     
 
-      <div>
+      
         <label htmlFor="password"> Password</label>
         <input {...register('password',{required:true, minLength:{value: 8, message:"must be 8 char"},
          validate:(value: string)=>
          {return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "must include lower, upper, number and special characters";},
          })} type="password" id="password" name="password"/>
         {errors.password ? <div>{errors.password.message}</div>:null}
-      </div>
+    
 
-      <div>
+      
         <label htmlFor="cpassword"> Confirm Password</label>
         <input {...register('cpassword',{required:true,
           validate: (value: {})=>
             value === password.current|| "The passwords do not match",
             })} type="password" id="cpassword" name="cpassword"/>
         {errors.cpassword ? <div>{errors.cpassword.message}</div>:null}
-      </div>
-      <div>
+     
+     
        <button type="submit" disabled={submitting}>Register</button>
       </div>
     </form>

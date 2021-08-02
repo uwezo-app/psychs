@@ -1,77 +1,103 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, Button} from 'react-native';
-import { RouteProp } from "@react-navigation/native"
-import { StackNavigationProp} from "@react-navigation/stack"
+import React, {useRef, useState}  from 'react';
+import { useForm } from "react-hook-form";
+import './Login.css'
 
-import { RootStackParamList } from "../../App";
-import getMoviesFromApi from "../../api/dummy";
 
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Login'>;
 
-type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
-type Props = {
-    route: ProfileScreenRouteProp;
-    navigation: ProfileScreenNavigationProp;
-};
 
-const Login: React.FC<Props> = ({ navigation }) => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>();
+interface FormData{
+  Email:string;
+  Password:string;
+  Cpassword:string;
+  
 
-    const navigate = () => {
-        navigation.navigate("Registration");
+}
+
+export default function Login() {
+    const { register,formState: { errors }, handleSubmit, watch}= useForm<FormData>({
+      defaultValues:{
+        Email: "",
+        Password:"",
+        Cpassword:""
+      }
+    });
+
+     const[submitting, setSubmitting]= useState<boolean>(false);
+     const [serverErrors, setServerErrors] = useState<Array<string>>([]);
+
+      
+
+    const password = useRef({});
+    password.current = watch("Password", "");
+    
+    const onSubmit= async ({Cpassword,...rest}: FormData)=>{
+          if(!submitting){
+            setSubmitting(true);
+            setServerErrors([]);
+
+            const response=await fetch(
+              `${process.env.REACT_NATIVE_GC_APP_URL}/register`,{
+                method:"POST",
+                headers:{
+                  "Content-type":"application/json"
+                },
+                body:JSON.stringify({...rest}),
+              }
+            );
+            const data= await response.json();
+
+            if(!data.errors){
+              setServerErrors(data.errors);
+            }else{
+              console.log(data);
+            }
+          }
+          setSubmitting(false);
     }
-    const navigate1 = () => {
-        navigation.navigate("Home");
-    }
-    const navigate2 = () => {
-        navigation.navigate("Contact");
-    }
-    const onPress = () => {
-        getMoviesFromApi().then((data: any) => {
-                console.log(data);
-            })
-        console.log();
-    }
+     
+    
+    
+     return(
+      <form onSubmit={handleSubmit(onSubmit)}>
+      
+     
+    
 
-    return (
-      <View>
-          <Text>Login</Text>
-          <TextInput
-            placeholder={"Enter your Email address"}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCompleteType="email"
-          />
-          <TextInput
-            placeholder={"Enter your Password"}
-            value={password}
-            onChangeText={setPassword}
-            // secureTextEntry
-            secureTextEntry={true}
-            autoCompleteType="password"
-          />
-          <Button
-              title="Login"
-              onPress={onPress}
-          />
+    {serverErrors && (
+      <ul>
+        {serverErrors.map((error) => (
+          <li key={error}>{error}</li>
+        ))}
+      </ul>
+    )}
 
-          <Text>
-              Don't have an account yet?
-              <Text onPress={navigate}>click here</Text>
-          </Text>
-          <Text>
-             Home Page:
-              <Text onPress={navigate1}>click here</Text>
-          </Text>
-          <Text>
-             Contact Us
-              <Text onPress={navigate2}>click here</Text>
-          </Text>
-      </View>
+      <div>
+          <h1>Login</h1>
+        
+     
+       
+     
+        <label htmlFor="email"> Email Address</label>
+        <input {...register('Email',{required:true})} type="text" id="email" name="email"/>
+        {errors.Email ? <div>{errors.Email.message}</div>:null}
+     
+
+      
+        <label htmlFor="password"> Password</label>
+        <input {...register('Password',{required:true, minLength:{value: 8, message:"must be 8 char"},
+         validate:(value: string)=>
+         {return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "must include lower, upper, number and special characters";},
+         })} type="password" id="password" name="password"/>
+        {errors.Password ? <div>{errors.Password.message}</div>:null}
+    
+     
+       <button type="submit" disabled={submitting}>Login</button>
+      </div>
+    </form>
     );
 }
 
-export default Login;
+
+
+

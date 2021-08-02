@@ -8,7 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './components/Login/Login';
 import Registration from "./components/Registration/Registration";
 import Home from "./components/HomePage/Home";
-import Contact from "./components/HomePage/Contact";
+import LandingPage from "./components/HomePage/LandingPage";
+
 
 const Stack = createStackNavigator();
 
@@ -16,17 +17,21 @@ export type RootStackParamList = {
   Login: undefined;
   Registration: undefined;
   Home: undefined;
-  Contact: undefined;
+  LandingPage:undefined
+ 
 };
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="LandingPage" component={LandingPage}/>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Registration" component={Registration}/>
         <Stack.Screen name="Home" component={Home}/>
-        <Stack.Screen name="Contact" component={Contact}/>
+        
+
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

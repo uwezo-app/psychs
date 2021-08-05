@@ -1,24 +1,21 @@
 
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { RootStackParamList } from "../../App";
+
 import { StackNavigationProp} from "@react-navigation/stack";
+import { useNavigation } from '@react-navigation/native';
 
 
-type SignScreenProp = StackNavigationProp<RootStackParamList, 'Registration'>;
 
-type Props = {
 
-  navigation: SignScreenProp;
-};
-
-const LandingPage: React.FC<Props> = ({ navigation }) => {
+const LandingPage =()=> {
      
-  const navigate1 = () => {
-    navigation.navigate("Registration");
-}
-const navigate2 = () => {
-    navigation.navigate("Login");
+  const navigation =useNavigation();
+  const onClick=()=>{
+    navigation.navigate('Registration')
+ }
+ const onClick1=()=>{
+  navigation.navigate('Login');
 }
   
     return (
@@ -32,12 +29,12 @@ const navigate2 = () => {
           </Image>
           
           <TouchableOpacity 
-            onPress={navigate1}
+            onPress={onClick}
           >
             <Text style={styles.signup}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={navigate2}
+            onPress={onClick1}
           >
             <Text style={styles.login}>Log In</Text>
           </TouchableOpacity>

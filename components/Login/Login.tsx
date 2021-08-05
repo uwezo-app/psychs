@@ -1,7 +1,7 @@
 import React, {useRef, useState}  from 'react';
 import { useForm } from "react-hook-form";
 import './Login.css'
-
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -25,6 +25,7 @@ export default function Login() {
 
      const[submitting, setSubmitting]= useState<boolean>(false);
      const [serverErrors, setServerErrors] = useState<Array<string>>([]);
+     const navigation =useNavigation();
 
       
 
@@ -54,6 +55,7 @@ export default function Login() {
             }
           }
           setSubmitting(false);
+          navigation.navigate('Root');
     }
      
     

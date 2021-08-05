@@ -1,6 +1,7 @@
 import React, {useRef, useState}  from 'react';
 import { useForm } from "react-hook-form";
 import './Registration.css'
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -16,6 +17,7 @@ interface FormData{
 }
 
 export default function Registration() {
+  const navigation =useNavigation();
     const { register,formState: { errors }, handleSubmit, watch}= useForm<FormData>({
       defaultValues:{
         FirstName: "",
@@ -58,6 +60,7 @@ export default function Registration() {
             }
           }
           setSubmitting(false);
+          navigation.navigate('Login');
     }
      
     

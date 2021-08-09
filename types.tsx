@@ -10,7 +10,10 @@ export type RootStackParamList = {
   ChatRoom:undefined;
   Registration:undefined;
   Login:undefined;
-  LandingPage:undefined
+  LandingPage:undefined;
+  ProfileScreen:undefined;
+  EditProfileScreen:undefined;
+
 };
 
 export type MainTabParamList = {

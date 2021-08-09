@@ -1,7 +1,10 @@
 import React, {useRef, useState}  from 'react';
 import { useForm } from "react-hook-form";
-import './Login.css'
+import styles from'./styles'
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity,Text, View, Image } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+
 
 
 
@@ -14,7 +17,7 @@ interface FormData{
 
 }
 
-export default function Login() {
+const Login = () => {
     const { register,formState: { errors }, handleSubmit, watch}= useForm<FormData>({
       defaultValues:{
         Email: "",
@@ -61,45 +64,47 @@ export default function Login() {
     
     
      return(
-      <form onSubmit={handleSubmit(onSubmit)}>
-      
-     
-    
-
-    {serverErrors && (
-      <ul>
-        {serverErrors.map((error) => (
-          <li key={error}>{error}</li>
-        ))}
-      </ul>
-    )}
-
-      <div>
-          <h1>Login</h1>
+           
+  <View style={styles.container}>
+         <Image
+            source={require('../assets/logo.jpeg')}
+            style={styles.logo}
+            resizeMode="contain"
+          >
+          </Image>
+         
         
-     
+     <Text style={{ alignSelf:'center', marginTop: 10, fontSize: 25}}>Login</Text>
        
-     
-        <label htmlFor="email"> Email Address</label>
-        <input {...register('Email',{required:true})} type="text" id="email" name="email"/>
-        {errors.Email ? <div>{errors.Email.message}</div>:null}
-     
+     <View style={styles.action}>
+       <Text >Email Address</Text> 
+      </View>
+      <View style={styles.action}>
+        <TextInput {...register('Email',{required:true})} placeholder="Email" style={styles.textInput}/>
+        {errors.Email ? <Text>{errors.Email.message}</Text>:null}
+     </View>
 
-      
-        <label htmlFor="password"> Password</label>
-        <input {...register('Password',{required:true, minLength:{value: 8, message:"must be 8 char"},
+     <View style={styles.action}>
+        <Text>  Password</Text> 
+      </View>
+    <View style={styles.action}>
+        <TextInput {...register('Password',{required:true, minLength:{value: 8, message:"must be 8 char"},
          validate:(value: string)=>
          {return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "must include lower, upper, number and special characters";},
-         })} type="password" id="password" name="password"/>
-        {errors.Password ? <div>{errors.Password.message}</div>:null}
+         })}placeholder="Password"
+         placeholderTextColor="#666666"
+         autoCorrect={false}
+         style={styles.textInput}/>
+        {errors.Password ? <Text>{errors.Password.message}</Text>:null}
     
-     
-       <button type="submit" disabled={submitting}>Login</button>
-      </div>
-    </form>
+     </View>
+       <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.panelButtonTitle}>Submit</Text>
+        </TouchableOpacity>
+      
+      </View>
+  
+ 
     );
 }
-
-
-
-
+export default Login;

@@ -3,15 +3,15 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer, DefaultTheme, DarkTheme, useRoute } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
-import { View, Image } from 'react-native';
-import {Octicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { View, TouchableOpacity } from 'react-native';
+import {Ionicons, AntDesign } from '@expo/vector-icons';
 
-import NotFoundScreen from '../screens/NotFoundScreen';
+import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './MainTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -21,8 +21,11 @@ import ContactsScreen from '../screens/ContactsScreen';
 import LandingPage from '../components/HomePage/LandingPage';
 import Login from '../components/Login/Login';
 import Registration from '../components/Registration/Registration';
-
+import ProfileScreen from '../screens/ProfileScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+ 
+  
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
@@ -37,7 +40,11 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+ 
+  
+  
   return (
+    
     <Stack.Navigator initialRouteName="LandingPage" screenOptions={{
       headerStyle:{
         backgroundColor:'#12AD2B',
@@ -53,7 +60,7 @@ function RootNavigator() {
        
       <Stack.Screen name="Root" component={MainTabNavigator}
       options=
-      {{  
+      {({navigation})=>({  
         title:"Uwezo App",
         headerRight: () => {
           return <View style={{
@@ -63,11 +70,15 @@ function RootNavigator() {
             marginRight:10,
             backgroundColor:'#12AD2B'
             }}>
-            <Octicons name="search" size={22} color={'white'} />
-            <MaterialCommunityIcons name="dots-vertical" size={22} color={'white'}/>
+              <TouchableOpacity onPress={()=> navigation.navigate('ProfileScreen')}>
+            <Ionicons name="person" size={22} color={'white'} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('Login')}>
+            <AntDesign name="logout" size={22} color={'white'}/>
+            </TouchableOpacity>
           </View>;
         }   
-        }} />
+        })} />
       
 
       <Stack.Screen 
@@ -79,6 +90,16 @@ function RootNavigator() {
       <Stack.Screen 
       name="ContactsScreen" 
       component={ContactsScreen} 
+         
+      />
+      <Stack.Screen 
+      name="ProfileScreen" 
+      component={ProfileScreen} 
+         
+      />
+      <Stack.Screen 
+      name="EditProfileScreen" 
+      component={EditProfileScreen} 
          
       />
       
@@ -96,4 +117,5 @@ function RootNavigator() {
       />
     </Stack.Navigator>
   );
+  
 }

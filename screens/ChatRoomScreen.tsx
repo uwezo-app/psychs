@@ -1,11 +1,8 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
 import React  from 'react';
-import { FlatList,Text,ImageBackground } from 'react-native';
+import { FlatList,View } from 'react-native';
 import {useRoute} from '@react-navigation/native'
 import chatRoomData from '../data/Chats'
 import ChatMessage from '../components/ChatMessage';
-import chatbackground from '../assets/images/chat-background.jpg'
 import InputBox from '../components/InputBox';
 
 
@@ -15,14 +12,14 @@ const ChatRoomScreen=()=> {
     console.log(route.params)
     
     return(
-        <ImageBackground style={{width:'100', height:'100'}} source={chatbackground}>
+      <View>
         <FlatList
             data={chatRoomData.messages}
             renderItem={({item})=><ChatMessage message={item}
             inverted/>}
             />
             <InputBox/> 
-            </ImageBackground>
+          </View>
        
     );
 }

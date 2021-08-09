@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-
-import { StackNavigationProp} from "@react-navigation/stack";
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -47,34 +45,34 @@ export default LandingPage;
 const styles = StyleSheet.create({
     
     logo:{
-      width: 280,
+      width: 200,
       height: 280,
-      marginLeft: '35%',
+      marginLeft: '22%',
       marginTop: '10%'
     },
    
     signup: {
       backgroundColor: 'white',
       color: '#12AD2B',
-      width: "75%",
+      width: "100%",
       borderRadius: 25,
       textAlign: 'center',
       fontWeight: 'bold',
-      marginLeft: '11%',
+      marginLeft: '0%',
       padding: "2%",
-      fontSize:  27,
+      fontSize:  25,
       marginTop: '10%'
     },
     login: {
       backgroundColor: '#12AD2B',
       color: 'white',
-      width: "75%",
+      width: "100%",
       borderRadius: 25,
       textAlign: 'center',
       fontWeight: 'bold',
-      marginLeft: '11%',
+      marginLeft: '0%',
       padding: "2%",
-      fontSize:  27,
+      fontSize:  25,
       marginTop: '10%'
     }
 });

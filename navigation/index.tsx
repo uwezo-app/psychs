@@ -6,14 +6,14 @@
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
+import { Alert, ColorSchemeName, Modal, Pressable, Text, StyleSheet} from 'react-native';
 
 import { View, TouchableOpacity } from 'react-native';
 import {Ionicons, AntDesign } from '@expo/vector-icons';
 
-import { useNavigation } from '@react-navigation/native';
+
 import { RootStackParamList } from '../types';
-import BottomTabNavigator from './MainTabNavigator';
+
 import LinkingConfiguration from './LinkingConfiguration';
 import MainTabNavigator from './MainTabNavigator';
 import ChatRoomScreen from '../screens/ChatRoomScreen'
@@ -23,9 +23,10 @@ import Login from '../components/Login/Login';
 import Registration from '../components/Registration/Registration';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import { useState } from 'react';
+
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
- 
-  
+    
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
@@ -37,15 +38,17 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
+
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
  
-  
+  const [modalVisible, setModalVisible] = useState(false);
   
   return (
+
     
-    <Stack.Navigator initialRouteName="LandingPage" screenOptions={{
+    <Stack.Navigator initialRouteName="EditProfileScreen" screenOptions={{
       headerStyle:{
         backgroundColor:'#12AD2B',
         shadowOpacity:0,
@@ -100,6 +103,51 @@ function RootNavigator() {
       <Stack.Screen 
       name="EditProfileScreen" 
       component={EditProfileScreen} 
+      options={ ()=>({  
+        title:"Edit Profile",
+        headerRight: () => {
+          return <View style={{
+            flexDirection:'row', 
+            width:60, 
+            justifyContent:'space-between', 
+            marginRight:10,
+            backgroundColor:'#12AD2B'
+            }}>
+              <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Are you sure you want to delete this account?</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>I'd rather not</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonDelete]}
+              >
+              <Text style={styles.textStyle}>Yes I do.</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      
+             <TouchableOpacity>
+      <AntDesign name="deleteuser" color={'white'} size={30} onPress={() => setModalVisible(true)} />
+      </TouchableOpacity>
+          </View>
+          </View>;
+        }   
+        })}
          
       />
       
@@ -118,4 +166,52 @@ function RootNavigator() {
     </Stack.Navigator>
   );
   
-}
+};
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 15,
+    elevation: 2,
+    marginBottom:10
+    
+  },
+  buttonOpen: {
+    backgroundColor: "#12AD2B",
+  },
+  buttonClose: {
+    backgroundColor: "#12AD2B",
+  },
+  buttonDelete: {
+    backgroundColor: "red",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
+});

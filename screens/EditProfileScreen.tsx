@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -10,41 +10,61 @@ import {
 } from 'react-native';
 
 import {useTheme} from 'react-native-paper';
-import  {MaterialCommunityIcons, FontAwesome, Feather } from '@expo/vector-icons';
+import  {MaterialCommunityIcons, FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-import * as ImagePicker from 'react-native-image-crop-picker';
 
-const EditProfileScreen = () => {
+import * as ImagePicker from 'expo-image-picker';
 
-  const [image, setImage] = useState('https://api.adorable.io/avatars/80/abott@adorable.png');
-  const {colors} = useTheme();
 
-  const takePhotoFromCamera = () => {
-    ImagePicker.openCamera({
-      compressImageMaxWidth: 300,
-      compressImageMaxHeight: 300,
-      cropping: true,
-      compressImageQuality: 0.7
-    }).then(image => {
-      console.log(image);
-      setImage(image.path);
-      bs.current.snapTo(1);
-    });
-  }
 
-  const choosePhotoFromLibrary = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true,
-      compressImageQuality: 0.7
-    }).then(image => {
-      console.log(image);
-      setImage(image.path);
-      bs.current.snapTo(1);
-    });
-  }
+  const EditProfileScreen = () => {
+
+    const [image, setImage] = useState('https://api.adorable.io/avatars/80/abott@adorable.png');
+    useEffect(() => {
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      })();
+    }, []);
+  
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    };
+    const camera = async () => {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    };
+    const {colors} = useTheme();
+  
+    
+
+  
 
   const renderInner = () => (
     <View style={styles.panel}>
@@ -52,10 +72,10 @@ const EditProfileScreen = () => {
         <Text style={styles.panelTitle}>Upload Photo</Text>
         <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
       </View>
-      <TouchableOpacity style={styles.panelButton} onPress={takePhotoFromCamera}>
+      <TouchableOpacity style={styles.panelButton} onPress={camera}>
         <Text style={styles.panelButtonTitle}>Take Photo</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.panelButton} onPress={choosePhotoFromLibrary}>
+      <TouchableOpacity style={styles.panelButton} onPress={pickImage}>
         <Text style={styles.panelButtonTitle}>Choose From Library</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -208,9 +228,11 @@ const EditProfileScreen = () => {
           />
         </View>
         <View style={styles.action}>
-          <MaterialCommunityIcons name="map-marker-outline" color={colors.text} size={20} />
+          <MaterialIcons  name="description" color={colors.text} size={20} />
           <TextInput
-            placeholder="City"
+            multiline
+            numberOfLines={2}
+            placeholder="Description"
             placeholderTextColor="#666666"
             autoCorrect={false}
             style={[
@@ -225,6 +247,8 @@ const EditProfileScreen = () => {
           <Text style={styles.panelButtonTitle}>Submit</Text>
         </TouchableOpacity>
       </Animated.View>
+       
+       
     </View>
   );
 };
@@ -311,6 +335,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#FF0000',
     paddingBottom: 5,
   },
+  
   textInput: {
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
@@ -318,3 +343,7 @@ const styles = StyleSheet.create({
     color: '#05375a',
   },
 });
+
+function onFileSeleceted(images: ImagePicker.ImageOrVideo) {
+  throw new Error('Function not implemented.');
+}

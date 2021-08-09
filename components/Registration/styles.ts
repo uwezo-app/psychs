@@ -51,7 +51,7 @@ const styles= StyleSheet.create({
     paddingBottom: 1,
     paddingLeft: 0,
   },
-  actionError: {
+  actionError: {  
     flexDirection: 'row',
     marginTop: 10,
     borderBottomWidth: 1,

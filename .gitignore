@@ -21,3 +21,5 @@ web-build/
 *.log.lz4
 *.log.lz4.xz
 *.log.lz4.lzma
+
+.env

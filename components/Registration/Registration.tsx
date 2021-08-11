@@ -82,7 +82,7 @@ export default function Registration() {
 
 <View style={styles.action}>
        <Ionicons name="person" color={'black'} size={15} />
-        <TextInput {...register('FirstName',{required:true})} placeholder="First Name" style={styles.textInput}/>
+        <TextInput {...register('FirstName',{required:true})} placeholder="First Name" style={styles.textInput} autoCompleteType="name"/>
         {errors.FirstName ? <Text>{errors.FirstName.message}</Text>:null}
 </View> 
 
@@ -90,14 +90,14 @@ export default function Registration() {
 
 <View style={styles.action}>
         <Ionicons name="person" color={'black'} size={15} />
-        <TextInput {...register('LastName',{required:true})} placeholder="Last Name" style={styles.textInput}/>
+        <TextInput {...register('LastName',{required:true})} placeholder="Last Name" style={styles.textInput} autoCompleteType="name"/>
         {errors.LastName ? <Text>{errors.LastName.message}</Text>:null}
 </View>    
      
 
       <View style={styles.action}>
       <MaterialIcons name="email" color={'black'} size={15} />
-        <TextInput {...register('Email',{required:true})} placeholder="Email" style={styles.textInput}/>
+        <TextInput {...register('Email',{required:true})} placeholder="Email" style={styles.textInput} autoCompleteType="email"/>
         {errors.Email ? <Text>{errors.Email.message}</Text>:null}
      </View>
 
@@ -108,7 +108,8 @@ export default function Registration() {
         <TextInput {...register('Password',{required:true, minLength:{value: 8, message:"must be 8 char"},
          validate:(value: string)=>
          {return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "must include lower, upper, number and special characters";},
-         })} placeholder="Set Password" style={styles.textInput} />
+         })} placeholder="Set Password" style={styles.textInput} autoCompleteType="password"
+         secureTextEntry={true}/>
         {errors.Password ? <Text>{errors.Password.message}</Text>:null}
         </View>
 
@@ -120,7 +121,8 @@ export default function Registration() {
         <TextInput {...register('Cpassword',{required:true,
           validate: (value: {})=>
             value === password.current|| "The passwords do not match",
-            })}  placeholder="Confirm Password" style={styles.textInput} />
+            })}  placeholder="Confirm Password" style={styles.textInput} autoCompleteType="password"
+            secureTextEntry={true} />
         {errors.Cpassword ? <Text>{errors.Cpassword.message}</Text>:null}
         </View>
         <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>

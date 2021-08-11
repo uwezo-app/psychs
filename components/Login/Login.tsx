@@ -80,7 +80,7 @@ const Login = () => {
        <Text >Email Address</Text> 
       </View>
       <View style={styles.action}>
-        <TextInput {...register('Email',{required:true})} placeholder="Email" style={styles.textInput}/>
+        <TextInput {...register('Email',{required:true})} placeholder="Email" style={styles.textInput} autoCompleteType="email"/>
         {errors.Email ? <Text>{errors.Email.message}</Text>:null}
      </View>
 
@@ -94,7 +94,9 @@ const Login = () => {
          })}placeholder="Password"
          placeholderTextColor="#666666"
          autoCorrect={false}
-         style={styles.textInput}/>
+         style={styles.textInput}
+         autoCompleteType="password"
+         secureTextEntry={true}/>
         {errors.Password ? <Text>{errors.Password.message}</Text>:null}
     
      </View>

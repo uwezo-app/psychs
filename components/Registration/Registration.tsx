@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import  styles from './styles'
 import { useNavigation } from '@react-navigation/native';
 import { Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-import { FontAwesome, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 
 
@@ -114,8 +114,7 @@ export default function Registration() {
         {errors.Password ? <Text>{errors.Password.message}</Text>:null}
         </View>
 
-      
-   
+         
    
     <View style={styles.action}>
     <Fontisto name="user-secret" color={'black'} size={15} />

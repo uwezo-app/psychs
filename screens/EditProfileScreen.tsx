@@ -10,15 +10,31 @@ import {
 } from 'react-native';
 
 import {useTheme} from 'react-native-paper';
-import  {MaterialCommunityIcons, FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
+import  {MaterialCommunityIcons, FontAwesome, Feather, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 
 import * as ImagePicker from 'expo-image-picker';
-
+import { Controller, useForm } from 'react-hook-form';
+ interface FormData{
+   
+  FirstName:string;
+  LastName:string;
+  Email:string;
+  Description:string;
+ }
 
 
   const EditProfileScreen = () => {
+    const {control,formState: { errors }, handleSubmit}= useForm<FormData>({
+      defaultValues:{
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        Description:"",
+
+      }
+    });
 
     const [image, setImage] = useState('https://api.adorable.io/avatars/80/abott@adorable.png');
     useEffect(() => {
@@ -156,92 +172,82 @@ import * as ImagePicker from 'expo-image-picker';
         </View>
 
         <View style={styles.action}>
-          <FontAwesome name="user-o" color={colors.text} size={20} />
-          <TextInput
-            placeholder="First Name"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={[
-              styles.textInput,
-              {
-                color: colors.text,
-              },
-            ]}
+       <Ionicons name="person" color={'black'} size={15} />
+       <Controller
+        control={control}
+        rules={{
+         required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="First Name" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
           />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome name="user-o" color={colors.text} size={20} />
-          <TextInput
-            placeholder="Last Name"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={[
-              styles.textInput,
-              {
-                color: colors.text,
-              },
-            ]}
+         )}
+         name="FirstName" 
+         defaultValue=""
+        />
+       
+        {errors.FirstName &&  <Text>Required</Text>}
+</View> 
+
+     
+
+<View style={styles.action}>
+        <Ionicons name="person" color={'black'} size={15} />
+        <Controller
+        control={control}
+        rules={{
+         required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="LastName" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
           />
-        </View>
-        <View style={styles.action}>
-          <Feather name="phone" color={colors.text} size={20} />
-          <TextInput
-            placeholder="Phone"
-            placeholderTextColor="#666666"
-            keyboardType="number-pad"
-            autoCorrect={false}
-            style={[
-              styles.textInput,
-              {
-                color: colors.text,
-              },
-            ]}
+         )}
+         name="LastName" 
+         defaultValue=""
+        />
+       
+        {errors.FirstName &&  <Text>Required</Text>}
+</View>    
+     
+
+      <View style={styles.action}>
+      <MaterialIcons name="email" color={'black'} size={15} />
+        <Controller
+        control={control}
+        rules={{
+         required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="Email" style={styles.textInput} autoCompleteType="email" onChangeText={onChange} onBlur={onBlur}
           />
-        </View>
+         )}
+         name="Email" 
+         defaultValue=""
+        />
+       
+        {errors.Email &&  <Text>Required</Text>}
+     </View>
+        
         <View style={styles.action}>
-          <FontAwesome name="envelope-o" color={colors.text} size={20} />
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor="#666666"
-            keyboardType="email-address"
-            autoCorrect={false}
-            style={[
-              styles.textInput,
-              {
-                color: colors.text,
-              },
-            ]}
-          />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome name="globe" color={colors.text} size={20} />
-          <TextInput
-            placeholder="Country"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={[
-              styles.textInput,
-              {
-                color: colors.text,
-              },
-            ]}
-          />
-        </View>
-        <View style={styles.action}>
-          <MaterialIcons  name="description" color={colors.text} size={20} />
+          <MaterialIcons  name="description" color={colors.text} size={15} />
+          <Controller
+          control={control}
+          rules={{
+            required:false,
+          }}
+          render={({field: {onChange, onBlur, value}})=>(
           <TextInput
             multiline
             numberOfLines={2}
             placeholder="Description"
             placeholderTextColor="#666666"
             autoCorrect={false}
-            style={[
-              styles.textInput,
-              {
-                color: colors.text,
-              },
-            ]}
-          />
+            style={styles.textInput}
+            onChangeText={onChange} onBlur={onBlur}
+          />)}
+          name="Description"
+            defaultValue=""/>
+          
         </View>
         <TouchableOpacity style={styles.commandButton} onPress={() => {}}>
           <Text style={styles.panelButtonTitle}>Submit</Text>

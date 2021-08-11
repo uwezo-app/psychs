@@ -1,5 +1,5 @@
-import React, {useRef, useState}  from 'react';
-import { useForm } from "react-hook-form";
+import React, {useState}  from 'react';
+import { Controller, useForm } from "react-hook-form";
 import  styles from './styles'
 import { useNavigation } from '@react-navigation/native';
 import { Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
@@ -20,7 +20,7 @@ interface FormData{
 
 export default function Registration() {
   const navigation =useNavigation();
-    const { register,formState: { errors }, handleSubmit, watch}= useForm<FormData>({
+    const {control,formState: { errors }, handleSubmit}= useForm<FormData>({
       defaultValues:{
         FirstName: "",
         LastName: "",
@@ -36,8 +36,6 @@ export default function Registration() {
 
       
 
-    const password = useRef({});
-    password.current = watch("Password", "");
     
     const onSubmit= async ({Cpassword,...rest}: FormData)=>{
           if(!submitting){
@@ -45,7 +43,7 @@ export default function Registration() {
             setServerErrors([]);
 
             const response=await fetch(
-              `${process.env.REACT_NATIVE_GC_APP_URL}/register`,{
+              `https://uwezoapp-321219.el.r.appspot.com/register`,{
                 method:"POST",
                 headers:{
                   "Content-type":"application/json"
@@ -55,14 +53,14 @@ export default function Registration() {
             );
             const data= await response.json();
 
-            if(!data.errors){
-              setServerErrors(data.errors);
+            if(data.status===201){
+              navigation.navigate('Login');
             }else{
               console.log(data);
             }
           }
           setSubmitting(false);
-          navigation.navigate('Login');
+         
     }
      
     
@@ -82,48 +80,105 @@ export default function Registration() {
 
 <View style={styles.action}>
        <Ionicons name="person" color={'black'} size={15} />
-        <TextInput {...register('FirstName',{required:true})} placeholder="First Name" style={styles.textInput} autoCompleteType="name"/>
-        {errors.FirstName ? <Text>{errors.FirstName.message}</Text>:null}
+       <Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="First Name" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
+          />
+         )}
+         name="FirstName" 
+         defaultValue=""
+        />
+       
+        {errors.FirstName &&  <Text>Required</Text>}
 </View> 
 
      
 
 <View style={styles.action}>
         <Ionicons name="person" color={'black'} size={15} />
-        <TextInput {...register('LastName',{required:true})} placeholder="Last Name" style={styles.textInput} autoCompleteType="name"/>
-        {errors.LastName ? <Text>{errors.LastName.message}</Text>:null}
+        <Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="LastName" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
+          />
+         )}
+         name="LastName" 
+         defaultValue=""
+        />
+       
+        {errors.FirstName &&  <Text>Required</Text>}
 </View>    
      
 
       <View style={styles.action}>
       <MaterialIcons name="email" color={'black'} size={15} />
-        <TextInput {...register('Email',{required:true})} placeholder="Email" style={styles.textInput} autoCompleteType="email"
-         />
-        {errors.Email ? <Text>{errors.Email.message}</Text>:null}
+        <Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="Email" style={styles.textInput} autoCompleteType="email" onChangeText={onChange} onBlur={onBlur}
+          />
+         )}
+         name="Email" 
+         defaultValue=""
+        />
+       
+        {errors.Email &&  <Text>Required</Text>}
      </View>
 
      
    
     <View style={styles.action}>
     <Fontisto name="user-secret" color={'black'} size={15} />
-        <TextInput {...register('Password',{required:true, minLength:{value: 8, message:"must be 8 char"},
+    <Controller
+        control={control}
+        rules={{
+         required: true,
+         minLength:{value: 8, message:"must be 8 char"},
          validate:(value: string)=>
          {return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "must include lower, upper, number and special characters";},
-         })} placeholder="Set Password" style={styles.textInput} autoCompleteType="password"
-         secureTextEntry={true} />
-        {errors.Password ? <Text>{errors.Password.message}</Text>:null}
+         
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="Password" style={styles.textInput} autoCompleteType="password" onChangeText={onChange} onBlur={onBlur} secureTextEntry={true}
+          />
+         )}
+         name="Password" 
+         defaultValue=""
+        />
+       
+        {errors.Password &&  <Text>Required</Text>}
         </View>
 
-         
+      
+   
    
     <View style={styles.action}>
     <Fontisto name="user-secret" color={'black'} size={15} />
-        <TextInput {...register('Cpassword',{required:true,
-          validate: (value: {})=>
-            value === password.current|| "The passwords do not match",
-            })}  placeholder="Confirm Password" style={styles.textInput} autoCompleteType="password"
-            secureTextEntry={true}/>
-        {errors.Cpassword ? <Text>{errors.Cpassword.message}</Text>:null}
+        <Controller
+        control={control}
+        rules={{
+         required: true,
+
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="Confirm Password" style={styles.textInput} autoCompleteType="password" onChangeText={onChange} onBlur={onBlur} secureTextEntry={true}
+          />
+         )}
+         name="Cpassword" 
+         defaultValue=""
+        />
+       
+        {errors.Cpassword &&  <Text>Required</Text>}
         </View>
         <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.panelButtonTitle}>Submit</Text>

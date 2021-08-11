@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import  styles from './styles'
 import { useNavigation } from '@react-navigation/native';
 import { Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-import { FontAwesome, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 
 

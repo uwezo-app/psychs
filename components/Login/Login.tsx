@@ -1,69 +1,65 @@
-import React, {useRef, useState}  from 'react';
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import styles from'./styles'
-import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity,Text, View, Image } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity, Text, View, Image } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 
-
-
-
-
-interface FormData{
-  Email:string;
-  Password:string;
-  Cpassword:string;
-  
-
+interface FormData {
+  Email: string;
+  Password: string;
+  Cpassword: string;
 }
 
 const Login = () => {
-    const { register,formState: { errors }, handleSubmit, watch}= useForm<FormData>({
-      defaultValues:{
-        Email: "",
-        Password:"",
-        Cpassword:""
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm<FormData>({
+    defaultValues: {
+      Email: "",
+      Password: "",
+      Cpassword: "",
+    },
+  });
+
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [serverErrors, setServerErrors] = useState<Array<string>>([]);
+  const navigation = useNavigation();
+
+  const password = useRef({});
+  password.current = watch("Password", "");
+
+  const onSubmit = async ({ Cpassword, ...rest }: FormData) => {
+    if (!submitting) {
+      setSubmitting(true);
+      setServerErrors([]);
+
+      const response = await fetch(
+        `${process.env.REACT_NATIVE_GC_APP_URL}/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ ...rest }),
+        }
+      );
+      const data = await response.json();
+
+      if (!data.errors) {
+        setServerErrors(data.errors);
+      } else {
+        console.log(data);
       }
-    });
-
-     const[submitting, setSubmitting]= useState<boolean>(false);
-     const [serverErrors, setServerErrors] = useState<Array<string>>([]);
-     const navigation =useNavigation();
-
-      
-
-    const password = useRef({});
-    password.current = watch("Password", "");
-    
-    const onSubmit= async ({Cpassword,...rest}: FormData)=>{
-          if(!submitting){
-            setSubmitting(true);
-            setServerErrors([]);
-
-            const response=await fetch(
-              `${process.env.REACT_NATIVE_GC_APP_URL}/register`,{
-                method:"POST",
-                headers:{
-                  "Content-type":"application/json"
-                },
-                body:JSON.stringify({...rest}),
-              }
-            );
-            const data= await response.json();
-
-            if(!data.errors){
-              setServerErrors(data.errors);
-            }else{
-              console.log(data);
-            }
-          }
-          setSubmitting(false);
-          navigation.navigate('Root');
     }
-     
-    
-    
-     return(
+    setSubmitting(false);
+    navigation.navigate("Root");
+  };
+
+  return(
            
   <View style={styles.container}>
          <Image
@@ -108,5 +104,5 @@ const Login = () => {
   
  
     );
-}
+};
 export default Login;

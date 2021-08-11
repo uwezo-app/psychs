@@ -59,60 +59,50 @@ const Login = () => {
     navigation.navigate("Root");
   };
 
-  return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/logo.jpeg")}
-        style={styles.logo}
-        resizeMode="contain"
-      ></Image>
+  return(
+           
+  <View style={styles.container}>
+         <Image
+            source={require('../assets/logo.jpeg')}
+            style={styles.logo}
+            resizeMode="contain"
+          >
+          </Image>
+         
+        
+     <Text style={{ alignSelf:'center', marginTop: 10, fontSize: 25}}>Login</Text>
+       
+     <View style={styles.action}>
+       <Text >Email Address</Text> 
+      </View>
+      <View style={styles.action}>
+        <TextInput {...register('Email',{required:true})} placeholder="Email" style={styles.textInput} autoCompleteType="email"/>
+        {errors.Email ? <Text>{errors.Email.message}</Text>:null}
+     </View>
 
-      <Text style={{ alignSelf: "center", marginTop: 10, fontSize: 25 }}>
-        Login
-      </Text>
-
-      <View style={styles.action}>
-        <Text>Email Address</Text>
+     <View style={styles.action}>
+        <Text>  Password</Text> 
       </View>
-      <View style={styles.action}>
-        <TextInput
-          {...register("Email", { required: true })}
-          placeholder="Email"
-          style={styles.textInput}
-        />
-        {errors.Email ? <Text>{errors.Email.message}</Text> : null}
+    <View style={styles.action}>
+        <TextInput {...register('Password',{required:true, minLength:{value: 8, message:"must be 8 char"},
+         validate:(value: string)=>
+         {return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "must include lower, upper, number and special characters";},
+         })}placeholder="Password"
+         placeholderTextColor="#666666"
+         autoCorrect={false}
+         style={styles.textInput}
+         autoCompleteType="password"
+         secureTextEntry={true}/>
+        {errors.Password ? <Text>{errors.Password.message}</Text>:null}
+    
+     </View>
+       <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.panelButtonTitle}>Submit</Text>
+        </TouchableOpacity>
+      
       </View>
-
-      <View style={styles.action}>
-        <Text> Password</Text>
-      </View>
-      <View style={styles.action}>
-        <TextInput
-          {...register("Password", {
-            required: true,
-            minLength: { value: 8, message: "must be 8 char" },
-            validate: (value: string) => {
-              return (
-                [/[A-Z]/, /[a-z]/, /[0-9]/, /[^a-zA-z0-9]/].every((pattern) =>
-                  pattern.test(value)
-                ) || "must include lower, upper, number and special characters"
-              );
-            },
-          })}
-          placeholder="Password"
-          placeholderTextColor="#666666"
-          autoCorrect={false}
-          style={styles.textInput}
-        />
-        {errors.Password ? <Text>{errors.Password.message}</Text> : null}
-      </View>
-      <TouchableOpacity
-        style={styles.commandButton}
-        onPress={handleSubmit(onSubmit)}
-      >
-        <Text style={styles.panelButtonTitle}>Submit</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  
+ 
+    );
 };
 export default Login;

@@ -114,8 +114,7 @@ export default function Registration() {
         {errors.Password ? <Text>{errors.Password.message}</Text>:null}
         </View>
 
-      
-   
+         
    
     <View style={styles.action}>
     <Fontisto name="user-secret" color={'black'} size={15} />

@@ -61,7 +61,9 @@ const styles= StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
     color: '#05375a',
-    borderRadius:1
+    borderRadius:1,
+    fontSize:15,
+    marginBottom:15
   },
   logo:{
     width: 140,

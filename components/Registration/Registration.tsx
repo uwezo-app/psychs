@@ -60,6 +60,7 @@ export default function Registration() {
             }
           }
           setSubmitting(false);
+          navigation.navigate('Login');
          
     }
      

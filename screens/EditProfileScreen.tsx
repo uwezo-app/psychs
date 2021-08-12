@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import {useTheme} from 'react-native-paper';
-import  {MaterialCommunityIcons, FontAwesome, Feather, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import  {MaterialCommunityIcons, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 
@@ -22,6 +22,8 @@ import { Controller, useForm } from 'react-hook-form';
   LastName:string;
   Email:string;
   Description:string;
+  Phone:string;
+  Category:string;
  }
 
 
@@ -32,6 +34,8 @@ import { Controller, useForm } from 'react-hook-form';
         LastName: "",
         Email: "",
         Description:"",
+        Phone:"",
+        Category:"General",
 
       }
     });
@@ -176,7 +180,7 @@ import { Controller, useForm } from 'react-hook-form';
        <Controller
         control={control}
         rules={{
-         required: false,
+         required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput placeholder="First Name" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
@@ -196,10 +200,10 @@ import { Controller, useForm } from 'react-hook-form';
         <Controller
         control={control}
         rules={{
-         required: false,
+         required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput placeholder="LastName" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
+          <TextInput placeholder="Last Name" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
           />
          )}
          name="LastName" 
@@ -227,28 +231,60 @@ import { Controller, useForm } from 'react-hook-form';
        
         {errors.Email &&  <Text>Required</Text>}
      </View>
+     <View style={styles.action}>
+      <MaterialIcons name="phone" color={'black'} size={15} />
+        <Controller
+        control={control}
+        rules={{
+         required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="Phone Number" style={styles.textInput} autoCompleteType="cc-number" onChangeText={onChange} onBlur={onBlur}
+          />
+         )}
+         name="Phone" 
+         defaultValue=""
+        />
+       
+        {errors.Email &&  <Text>Required</Text>}
+     </View>
+     <View style={styles.action}>
+      <MaterialIcons name="category" color={'black'} size={15} />
+        <Controller
+        control={control}
+        rules={{
+         required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput placeholder="Category" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
+          />
+         )}
+         name="Category" 
+         defaultValue="General"
+        />
+       
+        {errors.Category &&  <Text>Required</Text>}
+     </View>
+    
+     
+     <View style={styles.action}>
+      <MaterialIcons name="description" color={'black'} size={15} />
+        <Controller
+        control={control}
+        rules={{
+         required: false,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput multiline numberOfLines={2} placeholder="Description" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
+          />
+         )}
+         name="Description" 
+         defaultValue=""
+        />
+       
+        {errors.Description &&  <Text>Required</Text>}
+     </View>
         
-        <View style={styles.action}>
-          <MaterialIcons  name="description" color={colors.text} size={15} />
-          <Controller
-          control={control}
-          rules={{
-            required:false,
-          }}
-          render={({field: {onChange, onBlur, value}})=>(
-          <TextInput
-            multiline
-            numberOfLines={2}
-            placeholder="Description"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={styles.textInput}
-            onChangeText={onChange} onBlur={onBlur}
-          />)}
-          name="Description"
-            defaultValue=""/>
-          
-        </View>
         <TouchableOpacity style={styles.commandButton} onPress={() => {}}>
           <Text style={styles.panelButtonTitle}>Submit</Text>
         </TouchableOpacity>

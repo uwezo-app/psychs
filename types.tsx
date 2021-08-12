@@ -13,7 +13,8 @@ export type RootStackParamList = {
   LandingPage:undefined;
   ProfileScreen:undefined;
   EditProfileScreen:undefined;
-
+  PasswordReset:undefined;
+  GetEmail:undefined;
 };
 
 export type MainTabParamList = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, View} from "react-native";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {Octicons} from "@expo/vector-icons";
 import styles from "./styles"
 import { useNavigation } from '@react-navigation/native';
 
@@ -16,7 +16,7 @@ const NewMessageButton =()=>{
         
         <View style={styles.container}>
             <TouchableOpacity onPress={onPress}>
-            <MaterialCommunityIcons name="message-reply-text" size={28} color="white"/>
+            <Octicons name="request-changes" size={25} color="#12AD2B"/>
             </TouchableOpacity>
         </View>
     )

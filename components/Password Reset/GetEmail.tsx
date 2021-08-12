@@ -1,10 +1,10 @@
-import React, {useRef, useState}  from 'react';
+import React, {useState}  from 'react';
 import { Controller, useForm } from "react-hook-form";
 import styles from'./styles'
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity,Text, View, Image, GestureResponderEvent, Button} from 'react-native';
+import { TouchableOpacity,Text, View, Image} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Fontisto, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 
@@ -12,42 +12,34 @@ import { Fontisto, MaterialIcons } from '@expo/vector-icons';
 
 interface FormData{
   Email:string;
-  Password:string;
-  Cpassword:string;
-  
+ }
 
-}
-
-const Login = () => {
- 
+const GetEmail = () => {
+  const navigation =useNavigation();
   const onClick=()=>{
-    navigation.navigate('GetEmail')
+    navigation.navigate('PasswordReset')
  }
     const { control,formState: { errors }, handleSubmit}= useForm({
       defaultValues:{
         Email: "",
-        Password:""
       }
     });
 
      const[submitting, setSubmitting]= useState<boolean>(false);
-     const [serverErrors, setServerErrors] = useState<Array<string>>([]);
-     const navigation =useNavigation();
-
+      
     
-    
-     const onSubmit= async ({Cpassword,...rest}: FormData)=>{
+     const onSubmit= async ({Email}: FormData)=>{
       if(!submitting){
         setSubmitting(true);
         setServerErrors([]);
 
         const response=await fetch(
-          `https://uwezoapp-321219.el.r.appspot.com/register`,{
+          `https://uwezoapp-321219.el.r.appspot.com`,{
             method:"POST",
             headers:{
               "Content-type":"application/json"
             },
-            body:JSON.stringify({...rest}),
+            body:JSON.stringify({Email}),
           }
         );
         const data= await response.json();
@@ -60,7 +52,7 @@ const Login = () => {
         }
       }
       setSubmitting(false);
-      navigation.navigate('Root');
+      navigation.navigate('PasswordReset');
 }
     
      
@@ -79,11 +71,11 @@ const Login = () => {
          
          
         
-     <Text style={{ alignSelf:'center', marginTop: 10, fontSize: 25}}>Login</Text>
+     <Text style={{ alignSelf:'center', marginTop: 70, fontSize: 15}}></Text>
        
      
       <View style={styles.action}>
-      <MaterialIcons name="email" color={'black'} size={15} />
+      <MaterialIcons name="email" color={'black'} size={30} />
       <Controller
         control={control}
         rules={{
@@ -100,38 +92,18 @@ const Login = () => {
         {errors.Email &&  <Text>Required</Text>}
      </View>
 
-    
-     <View style={styles.action}>
-    <Fontisto name="user-secret" color={'black'} size={15} />
-    <Controller
-        control={control}
-        rules={{
-         required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput placeholder="Password" style={styles.textInput} autoCompleteType="password" onChangeText={onChange} onBlur={onBlur} secureTextEntry={true}
-          />
-         )}
-         name="Password" 
-         defaultValue=""
-        />
-       
-        {errors.Password &&  <Text>Required</Text>}
-        </View>
 
         <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.panelButtonTitle}>Submit</Text>
         </TouchableOpacity>
 
-
-        <View style={styles.forgot}>
-          <Text> Forgot your password?</Text>
-          <Text onPress={onClick}> Click Here</Text>
-        </View>
-      
       </View>
   
  
     );
 }
-export default Login;
+export default GetEmail;
+
+function setServerErrors(arg0: never[]) {
+  throw new Error('Function not implemented.');
+}

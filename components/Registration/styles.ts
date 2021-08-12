@@ -51,6 +51,27 @@ const styles= StyleSheet.create({
     paddingBottom: 1,
     paddingLeft: 0,
   },
+  action1: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 3,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    paddingBottom: 1,
+    paddingLeft: 0,
+  },
+  action2: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 3,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    paddingBottom: 1,
+    paddingLeft: 0,
+  },
+  forgot:{
+    marginLeft:'2%'
+  },
   actionError: {  
     flexDirection: 'row',
     marginTop: 10,

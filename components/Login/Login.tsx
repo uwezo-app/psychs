@@ -19,6 +19,10 @@ interface FormData{
 }
 
 const Login = () => {
+ 
+  const onClick=()=>{
+    navigation.navigate('Registration')
+ }
     const { control,formState: { errors }, handleSubmit}= useForm({
       defaultValues:{
         Email: "",
@@ -118,6 +122,12 @@ const Login = () => {
         <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.panelButtonTitle}>Submit</Text>
         </TouchableOpacity>
+
+
+        <View style={styles.forgot}>
+          <Text> Forgot your password?</Text>
+          <Text onPress={onClick}> Click Here</Text>
+        </View>
       
       </View>
   

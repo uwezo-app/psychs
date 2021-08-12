@@ -1,9 +1,9 @@
-import React, {useState}  from 'react';
+import React, {useRef, useState}  from 'react';
 import { Controller, useForm } from "react-hook-form";
 import  styles from './styles'
 import { useNavigation } from '@react-navigation/native';
 import { Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-import { Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 
 
@@ -20,7 +20,7 @@ interface FormData{
 
 export default function Registration() {
   const navigation =useNavigation();
-    const {control,formState: { errors }, handleSubmit}= useForm<FormData>({
+    const {control,formState: { errors }, handleSubmit, getValues}= useForm<FormData>({
       defaultValues:{
         FirstName: "",
         LastName: "",
@@ -85,7 +85,7 @@ export default function Registration() {
         rules={{
          required: true,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, onBlur } }) => (
           <TextInput placeholder="First Name" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
           />
          )}
@@ -105,7 +105,7 @@ export default function Registration() {
         rules={{
          required: true,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, onBlur } }) => (
           <TextInput placeholder="LastName" style={styles.textInput} autoCompleteType="name" onChangeText={onChange} onBlur={onBlur}
           />
          )}
@@ -124,7 +124,7 @@ export default function Registration() {
         rules={{
          required: true,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, onBlur } }) => (
           <TextInput placeholder="Email" style={styles.textInput} autoCompleteType="email" onChangeText={onChange} onBlur={onBlur}
           />
          )}
@@ -137,18 +137,19 @@ export default function Registration() {
 
      
    
-    <View style={styles.action}>
+    <View style={styles.action1}>
     <Fontisto name="user-secret" color={'black'} size={15} />
     <Controller
         control={control}
         rules={{
          required: true,
-         minLength:{value: 8, message:"must be 8 char"},
-         validate:(value: string)=>
-         {return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "must include lower, upper, number and special characters";},
+         minLength:{value: 8, message:"Must have at least 8 characters"},
+         validate:(value: string)=>{
+           return[/[A-Z]/,/[a-z]/,/[0-9]/,/[^a-zA-z0-9]/,].every((pattern)=>pattern.test(value))|| "Must have: lower, upper, number & special characters";
+          }
          
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, onBlur } }) => (
           <TextInput placeholder="Password" style={styles.textInput} autoCompleteType="password" onChangeText={onChange} onBlur={onBlur} secureTextEntry={true}
           />
          )}
@@ -156,21 +157,28 @@ export default function Registration() {
          defaultValue=""
         />
        
-        {errors.Password &&  <Text>Required</Text>}
+       
         </View>
-
+        {errors.Password &&  <Text style={styles.forgot}> {errors.Password.message}</Text>}
       
    
    
-    <View style={styles.action}>
+    <View style={styles.action2}>
     <Fontisto name="user-secret" color={'black'} size={15} />
         <Controller
         control={control}
         rules={{
          required: true,
+         validate: value => {
+          if (value === getValues()["Password"]) {
+            return true;
+          } else {
+            return "The passwords do not match";
+          }
+        }
 
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, onBlur } }) => (
           <TextInput placeholder="Confirm Password" style={styles.textInput} autoCompleteType="password" onChangeText={onChange} onBlur={onBlur} secureTextEntry={true}
           />
          )}
@@ -178,7 +186,8 @@ export default function Registration() {
          defaultValue=""
         />
        
-        {errors.Cpassword &&  <Text>Required</Text>}
+        {errors.Cpassword &&  <Text >{errors.Cpassword.message}</Text>}
+        
         </View>
         <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.panelButtonTitle}>Submit</Text>

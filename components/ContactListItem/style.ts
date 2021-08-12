@@ -6,6 +6,8 @@ const styles=StyleSheet.create({
         width:"100%",
         justifyContent:"space-between",
         padding:10,
+        alignSelf: 'flex-end',
+        right: 0,
     },
     leftContainer:{
         flexDirection:'row'
@@ -25,11 +27,38 @@ const styles=StyleSheet.create({
         fontSize:16,
         fontWeight:'bold',
     },
-    status:{
-        fontSize:16,
-        color:'grey'
+    
+    acceptButton: {
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: '#12AD2B',
+        alignItems: 'center',
+        marginTop: 10,
+        height:30,
+        alignSelf: 'flex-end',
+      
         
-    }
+      },
+      acceptButton1: {
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: '#D2042D',
+        alignItems: 'center',
+        marginTop: 10,
+        height:30,
+      },
+      panelButtonTitle: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: 'white',
+        textAlignVertical:'center',
+      },
+      buttonContainer:{
+          flexDirection:'row',
+          justifyContent: 'space-between',
+          alignItems:'flex-end',
+          alignSelf:'flex-end'
+      }
 
 });
 export default styles;

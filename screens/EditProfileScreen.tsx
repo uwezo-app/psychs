@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {useTheme} from 'react-native-paper';
@@ -118,7 +119,7 @@ import { Controller, useForm } from 'react-hook-form';
   const fall = new Animated.Value(1);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <BottomSheet
         ref={bs}
         snapPoints={[330, 0]}
@@ -291,7 +292,7 @@ import { Controller, useForm } from 'react-hook-form';
       </Animated.View>
        
        
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

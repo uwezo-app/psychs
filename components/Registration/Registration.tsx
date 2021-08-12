@@ -2,7 +2,7 @@ import React, {useRef, useState}  from 'react';
 import { Controller, useForm } from "react-hook-form";
 import  styles from './styles'
 import { useNavigation } from '@react-navigation/native';
-import { Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View, Image, KeyboardAvoidingView } from 'react-native';
 import { FontAwesome, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 
@@ -68,7 +68,7 @@ export default function Registration() {
     
      return(
       
-<View style={styles.container}>
+<KeyboardAvoidingView style={styles.container}>
 <Image
             source={require('../assets/logo.jpeg')}
             style={styles.logo}
@@ -194,7 +194,7 @@ export default function Registration() {
           <Text style={styles.panelButtonTitle}>Submit</Text>
         </TouchableOpacity>
       
-        </View>
+        </KeyboardAvoidingView>
      
        
     );

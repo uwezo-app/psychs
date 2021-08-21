@@ -1,29 +1,26 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import {
-  TouchableOpacity,
-  Text,
-  View,
+  ActivityIndicator,
   Image,
-  GestureResponderEvent,
-  Button,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Fontisto, MaterialIcons } from "@expo/vector-icons";
 
+import AuthContext from "../../context/auth/context";
+import ButtonWithSpinner from "../ButtonWithSpinner/ButtonWithSpinner";
+
 interface FormData {
   Email: string;
   Password: string;
-  Cpassword: string;
 }
 
 const Login = () => {
-  const HandleResetPassword = () => {
-    navigation.navigate("GetEmail");
-  };
-
   const {
     control,
     formState: { errors },
@@ -35,35 +32,19 @@ const Login = () => {
     },
   });
 
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const [serverErrors, setServerErrors] = useState<Array<string>>([]);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [_, setServerErrors] = useState<Array<string>>([]);
   const navigation = useNavigation();
+  const authContext = React.useContext(AuthContext);
 
-  const onSubmit = async ({ Cpassword, ...rest }: FormData) => {
-    if (!submitting) {
-      setSubmitting(true);
-      setServerErrors([]);
-
-      const response = await fetch(
-        `https://uwezoapp-321219.el.r.appspot.com/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ ...rest }),
-        }
-      );
-      const data = await response.json();
-
-      if (data.status === 200) {
-        navigation.navigate("Root");
-      } else {
-        console.log(" Email or Password is Incorrect");
-      }
-    }
-    setSubmitting(false);
-    navigation.navigate("Root");
+  const onSubmit = async (authInfo: FormData) => {
+    await authContext.login({
+      isSubmitting,
+      authInfo,
+      navigation,
+      setIsSubmitting,
+      setServerErrors,
+    });
   };
 
   return (
@@ -89,10 +70,10 @@ const Login = () => {
             <TextInput
               placeholder="Email"
               style={styles.textInput}
-              value={value}
               autoCompleteType="email"
               onChangeText={onChange}
               onBlur={onBlur}
+              value={value}
             />
           )}
           name="Email"
@@ -113,11 +94,11 @@ const Login = () => {
             <TextInput
               placeholder="Password"
               style={styles.textInput}
-              value={value}
               autoCompleteType="password"
               onChangeText={onChange}
               onBlur={onBlur}
               secureTextEntry={true}
+              value={value}
             />
           )}
           name="Password"
@@ -127,17 +108,10 @@ const Login = () => {
         {errors.Password && <Text>Required</Text>}
       </View>
 
-      <TouchableOpacity
-        style={styles.commandButton}
+      <ButtonWithSpinner
+        isSubmitting={isSubmitting}
         onPress={handleSubmit(onSubmit)}
-      >
-        <Text style={styles.panelButtonTitle}>Submit</Text>
-      </TouchableOpacity>
-
-      <View style={styles.forgot}>
-        <Text> Forgot your password?</Text>
-        <Text onPress={HandleResetPassword}> Click Here</Text>
-      </View>
+      />
     </View>
   );
 };

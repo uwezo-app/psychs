@@ -5,7 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41d8fa6e-b01d-4d52-b646-d82fa4480cbe" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/psychologist.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context/auth/context.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context/auth/provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context/websocket/context.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context/websocket/provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/babel.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ChatMessage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ChatMessage/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/HomePage/LandingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/HomePage/LandingPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Login/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Login/Login.tsx" afterDir="false" />
@@ -72,6 +83,8 @@
       <workItem from="1628753857430" duration="11914000" />
       <workItem from="1628767999344" duration="9646000" />
       <workItem from="1628789846299" duration="17083000" />
+      <workItem from="1629543550349" duration="353000" />
+      <workItem from="1629544788952" duration="2030000" />
     </task>
     <servers />
   </component>

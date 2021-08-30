@@ -1,137 +1,118 @@
-import React, {useRef, useState}  from 'react';
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import styles from'./styles'
-import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity,Text, View, Image, GestureResponderEvent, Button} from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import { Fontisto, MaterialIcons } from '@expo/vector-icons';
+import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import { Fontisto, MaterialIcons } from "@expo/vector-icons";
 
+import AuthContext from "../../context/auth/context";
+import ButtonWithSpinner from "../ButtonWithSpinner/ButtonWithSpinner";
 
-
-
-
-interface FormData{
-  Email:string;
-  Password:string;
-  Cpassword:string;
-  
-
+interface FormData {
+  Email: string;
+  Password: string;
 }
 
 const Login = () => {
- 
-  const onClick=()=>{
-    navigation.navigate('GetEmail')
- }
-    const { control,formState: { errors }, handleSubmit}= useForm({
-      defaultValues:{
-        Email: "",
-        Password:""
-      }
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      Email: "",
+      Password: "",
+    },
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [_, setServerErrors] = useState<Array<string>>([]);
+  const navigation = useNavigation();
+  const authContext = React.useContext(AuthContext);
+
+  const onSubmit = async (authInfo: FormData) => {
+    await authContext.login({
+      isSubmitting,
+      authInfo,
+      navigation,
+      setIsSubmitting,
+      setServerErrors,
     });
+  };
 
-     const[submitting, setSubmitting]= useState<boolean>(false);
-     const [serverErrors, setServerErrors] = useState<Array<string>>([]);
-     const navigation =useNavigation();
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require("../assets/logo.jpeg")}
+        style={styles.logo}
+        resizeMode="contain"
+      ></Image>
 
-    
-    
-     const onSubmit= async ({Cpassword,...rest}: FormData)=>{
-      if(!submitting){
-        setSubmitting(true);
-        setServerErrors([]);
+      <Text style={{ alignSelf: "center", marginTop: 10, fontSize: 25 }}>
+        Login
+      </Text>
 
-        const response=await fetch(
-          `https://uwezoapp-321219.el.r.appspot.com/register`,{
-            method:"POST",
-            headers:{
-              "Content-type":"application/json"
-            },
-            body:JSON.stringify({...rest}),
-          }
-        );
-        const data= await response.json();
-
-        if(data.status===200){
-          navigation.navigate('Root');
-        }else{
-          console.log(" Email or Password is Incorrect");
-         
-        }
-      }
-      setSubmitting(false);
-      navigation.navigate('Root');
-}
-    
-     
-    
-    
-     return(
-           
-  <View style={styles.container}>
-         <Image
-            source={require('../assets/logo.jpeg')}
-            style={styles.logo}
-            resizeMode="contain"
-          >
-          </Image>
-
-         
-         
-        
-     <Text style={{ alignSelf:'center', marginTop: 10, fontSize: 25}}>Login</Text>
-       
-     
       <View style={styles.action}>
-      <MaterialIcons name="email" color={'black'} size={15} />
-      <Controller
-        control={control}
-        rules={{
-         required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput placeholder="Email" style={styles.textInput} autoCompleteType="email" onChangeText={onChange} onBlur={onBlur}
-          />
-         )}
-         name="Email" 
-         defaultValue=""
+        <MaterialIcons name="email" color={"black"} size={15} />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder="Email"
+              style={styles.textInput}
+              autoCompleteType="email"
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name="Email"
+          defaultValue=""
         />
-       
-        {errors.Email &&  <Text>Required</Text>}
-     </View>
 
-    
-     <View style={styles.action}>
-    <Fontisto name="user-secret" color={'black'} size={15} />
-    <Controller
-        control={control}
-        rules={{
-         required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput placeholder="Password" style={styles.textInput} autoCompleteType="password" onChangeText={onChange} onBlur={onBlur} secureTextEntry={true}
-          />
-         )}
-         name="Password" 
-         defaultValue=""
-        />
-       
-        {errors.Password &&  <Text>Required</Text>}
-        </View>
-
-        <TouchableOpacity style={styles.commandButton} onPress={handleSubmit(onSubmit)}>
-          <Text style={styles.panelButtonTitle}>Submit</Text>
-        </TouchableOpacity>
-
-
-        <View style={styles.forgot}>
-          <Text> Forgot your password?</Text>
-          <Text onPress={onClick}> Click Here</Text>
-        </View>
-      
+        {errors.Email && <Text>Required</Text>}
       </View>
-  
- 
-    );
-}
+
+      <View style={styles.action}>
+        <Fontisto name="user-secret" color={"black"} size={15} />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder="Password"
+              style={styles.textInput}
+              autoCompleteType="password"
+              onChangeText={onChange}
+              onBlur={onBlur}
+              secureTextEntry={true}
+              value={value}
+            />
+          )}
+          name="Password"
+          defaultValue=""
+        />
+
+        {errors.Password && <Text>Required</Text>}
+      </View>
+
+      <ButtonWithSpinner
+        isSubmitting={isSubmitting}
+        onPress={handleSubmit(onSubmit)}
+      />
+    </View>
+  );
+};
 export default Login;

@@ -20,7 +20,7 @@ export default function ChatScreen() {
 			const fecthConnections = async () => {
 				let ids: any[] = [];
 				let response = await fetch(
-					`http://localhost:8000/conversations?psychologistID=${authContext.User.ID}`
+					`${process.env.REACT_NATIVE_GC_APP_URL}/conversations?psychologistID=${authContext.User.ID}`
 				);
 
 				if (response.ok && response.status === 200) {

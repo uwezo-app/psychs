@@ -4,10 +4,8 @@ import {
   ActivityIndicator,
   GestureResponderEvent,
   StyleSheet,
-  StyleProp,
   TouchableOpacity,
   View,
-  ViewStyle,
 } from "react-native";
 
 interface ButtonWithSpinnerProps {

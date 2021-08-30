@@ -6,65 +6,67 @@ import React from "react";
  */
 
 export type RootStackParamList = {
-  Root: undefined;
-  NotFound: undefined;
-  ContactsScreen: undefined;
-  ChatRoom: undefined;
-  Registration: undefined;
-  Login: undefined;
-  LandingPage: undefined;
-  ProfileScreen: undefined;
-  EditProfileScreen: undefined;
-  PasswordReset: undefined;
-  GetEmail: undefined;
+	Root: undefined;
+	NotFound: undefined;
+	ContactsScreen: undefined;
+	ChatRoom: {
+		id: string; // conversationID
+		UserID: string;
+		name: string;
+		imageURi: string;
+	};
+	Registration: undefined;
+	Login: undefined;
+	LandingPage: undefined;
+	ProfileScreen: undefined;
+	EditProfileScreen: undefined;
+	PasswordReset: undefined;
+	GetEmail: undefined;
 };
 
 export type MainTabParamList = {
-  Camera: undefined;
-  Chats: undefined;
-  Calls: undefined;
-  Status: undefined;
+	Chats: undefined;
 };
 
 export type ChatParamList = {
-  ChatScreen: undefined;
+	ChatScreen: undefined;
 };
 
 export type TabTwoParamList = {
-  TabTwoScreen: undefined;
+	TabTwoScreen: undefined;
 };
 
 export type Message = {
-  id: String;
-  content: String;
-  createdAt: String;
-  user: User;
+	id: String;
+	content: String;
+	createdAt: String;
+	user: User;
 };
 
 export type ChatRoom = {
-  id: String;
-  users: User[];
-  lastMessage: Message;
+	id: String;
+	users: User[];
+	lastMessage: Message;
 };
 
 export type LoginParams = {
-  isSubmitting: boolean;
-  authInfo: any;
-  navigation: any;
-  setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
-  setServerErrors: React.Dispatch<React.SetStateAction<string[]>>;
+	isSubmitting: boolean;
+	authInfo: any;
+	navigation: any;
+	setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
+	setServerErrors: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export type ProfileParams = {
-  profile: User;
-  isSubmitting: boolean;
-  setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
+	profile: User;
+	isSubmitting: boolean;
+	setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type LogoutParams = {
-  isSubmitting: boolean;
-  navigation: any;
-  setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
+	isSubmitting: boolean;
+	navigation: any;
+	setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type User = any;

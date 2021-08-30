@@ -1,27 +1,30 @@
 import "react-native-gesture-handler";
-import {StatusBar} from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import {SafeAreaProvider} from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import AuthProvider from "./context/auth/provider";
+import WebSocketsProvider from "./context/websocket/provider";
 
 export default function App() {
-    const isLoadingComplete = useCachedResources();
-    const colorScheme = useColorScheme();
+	const isLoadingComplete = useCachedResources();
+	const colorScheme = useColorScheme();
 
-    if (!isLoadingComplete) {
-        return null;
-    } else {
-        return (
-            <SafeAreaProvider>
-                <AuthProvider>
-                    <Navigation colorScheme={colorScheme}/>
-                    <StatusBar/>
-                </AuthProvider>
-            </SafeAreaProvider>
-        );
-    }
+	if (!isLoadingComplete) {
+		return null;
+	} else {
+		return (
+			<SafeAreaProvider>
+				<AuthProvider>
+					<WebSocketsProvider>
+						<Navigation colorScheme={colorScheme} />
+						<StatusBar />
+					</WebSocketsProvider>
+				</AuthProvider>
+			</SafeAreaProvider>
+		);
+	}
 }

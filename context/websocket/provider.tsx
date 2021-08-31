@@ -9,10 +9,23 @@ interface WebSocketsProviderProps {
 
 const WebSocketsProvider = (props: WebSocketsProviderProps) => {
 	const [connection, setConnection] = React.useState<WebSocket>(
-		new WebSocket(
-			`wss://${process.env.REACT_NATIVE_GC_APP_URL}/chat?tokenString=`
-		)
+		new WebSocket(`ws://http://localhost:8000/chat?tokenString=`)
 	);
+	const [wsInfo, setwsInfo] = React.useState<{
+		ConversationID: string;
+		UserID: string;
+		UserName: string;
+		UserAvatar: string;
+	}>({ ConversationID: "", UserID: "", UserName: "", UserAvatar: "" });
+
+	const setwsInfoState = (wsInfo: {
+		ConversationID: string;
+		UserID: string;
+		UserName: string;
+		UserAvatar: string;
+	}) => {
+		setwsInfo(wsInfo);
+	};
 
 	const setConn = (connection: WebSocket) => {
 		setConnection(connection);
@@ -53,6 +66,7 @@ const WebSocketsProvider = (props: WebSocketsProviderProps) => {
 	return (
 		<WebSocketsContext.Provider
 			value={{
+				wsInfo,
 				connection,
 
 				onopen,
@@ -61,6 +75,7 @@ const WebSocketsProvider = (props: WebSocketsProviderProps) => {
 				onerror,
 
 				send,
+				setwsInfoState,
 				setConn,
 			}}
 		>

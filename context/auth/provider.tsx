@@ -22,17 +22,14 @@ export default class GlobalState extends React.Component<Props, {}> {
 			param.setIsSubmitting(true);
 			param.setServerErrors([]);
 
-			const response = await fetch(
-				`${process.env.REACT_NATIVE_GC_APP_URL}/register`,
-				{
-					method: "POST",
-					headers: {
-						"Content-type": "application/json",
-						Accept: "application/json",
-					},
-					body: JSON.stringify(param.body),
-				}
-			);
+			const response = await fetch(`http://localhost:8000/register`, {
+				method: "POST",
+				headers: {
+					"Content-type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify(param.body),
+			});
 			if (response.ok && response.status === 201) {
 				await response.json();
 				param.navigation.navigate("Login");
@@ -48,25 +45,21 @@ export default class GlobalState extends React.Component<Props, {}> {
 			param.setIsSubmitting(true);
 			param.setServerErrors([]);
 
-			const response = await fetch(
-				`${process.env.REACT_NATIVE_GC_APP_URL}/login`,
-				{
-					method: "POST",
-					headers: {
-						"Content-type": "application/json",
-						Accept: "application/json",
-					},
-					body: JSON.stringify(param.authInfo),
-				}
-			);
+			const response = await fetch(`http://localhost:8000/login`, {
+				method: "POST",
+				headers: {
+					"Content-type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify(param.authInfo),
+			});
 
 			if (response.ok && response.status === 200) {
 				const user = await response.json();
 				this.setState({ ...this.state, user: user.User });
 				this.setState({ ...this.state, token: user.Token });
-				WS.init(
-					`wss://uwezo-app-323117.uc.r.appspot.com/chat?tokenString=${user.Token}`
-				);
+				WS.init(`ws://localhost:/chat?tokenString=${user.Token}`);
+
 				WS.onOpen(console.log);
 				WS.onClose(console.log);
 				param.navigation.navigate("Root");
@@ -84,15 +77,12 @@ export default class GlobalState extends React.Component<Props, {}> {
 	}: LogoutParams) => {
 		if (!isSubmitting) {
 			setIsSubmitting(true);
-			const response = await fetch(
-				`${process.env.REACT_NATIVE_GC_APP_URL}/logout`,
-				{
-					method: "GET",
-					headers: {
-						Authorization: "Bearer " + this.state.token,
-					},
-				}
-			);
+			const response = await fetch(`http://localhost:8000/logout`, {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + this.state.token,
+				},
+			});
 
 			if (response.ok && response.status === 200) {
 				await response.json();
@@ -113,7 +103,7 @@ export default class GlobalState extends React.Component<Props, {}> {
 			setIsSubmitting(true);
 
 			const response = await fetch(
-				`${process.env.REACT_NATIVE_GC_APP_URL}/psychologist/profile/${this.state.user.Email}`,
+				`http://localhost:8000/psychologist/profile/${this.state.user.Email}`,
 				{
 					method: "POST",
 					headers: {

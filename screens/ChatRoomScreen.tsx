@@ -5,23 +5,22 @@ import { useRoute } from "@react-navigation/native";
 import InputBox from "../components/InputBox";
 import ChatMessage from "../components/ChatMessage";
 
-import WSContext from "../context/websocket/context";
 import AuthContext from "../context/auth/context";
-
-import WS from "../context/websocket/ws";
 
 const ChatRoomScreen = () => {
 	const route = useRoute();
 	const authContext = React.useContext(AuthContext);
-	const wsContext = React.useContext(WSContext);
 
-	const [messages, setMessages] = React.useState([]);
+	const [messages, setMessages] = React.useState<any>([]);
 	console.log(route.params);
 
 	React.useEffect(() => {
 		const fetchConversation = async () => {
 			const response = await fetch(
-				`${process.env.REACT_NATIVE_GC_APP_URL}/chats?PatientID=${wsContext.wsInfo.UserID}&PsychologistID=${authContext.User.ID}`
+				`${process.env.REACT_NATIVE_GC_APP_URL}/chats?ConversationID=${route.params?.id}`
+			);
+			console.log(
+				`${process.env.REACT_NATIVE_GC_APP_URL}/chats?ConversationID=${route.params?.id}`
 			);
 
 			if (response.ok) {
@@ -35,7 +34,7 @@ const ChatRoomScreen = () => {
 
 	return (
 		<>
-			{messages.length > 0 ? (
+			{!!messages && messages.length > 0 ? (
 				<FlatList
 					data={messages}
 					renderItem={({ item }) => <ChatMessage message={item} />}
@@ -49,7 +48,7 @@ const ChatRoomScreen = () => {
 			)}
 
 			<View style={{}}>
-				<InputBox />
+				<InputBox messages={messages} setMessages={setMessages} />
 			</View>
 		</>
 	);

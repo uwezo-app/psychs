@@ -1,18 +1,45 @@
 import React, { useState, useContext } from "react";
+import { useRoute } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
 import styles from "./styles";
-import WSContext from "../../context/websocket/context";
+import WS from "../../context/websocket/ws";
 
-const InputBox = () => {
+import AuthContext from "../../context/auth/context";
+
+type InputProps = {
+	messages: string[];
+
+	setMessages: (messages: any[]) => void;
+};
+
+const InputBox = (props: InputProps) => {
+	const auth = React.useContext(AuthContext);
 	const [message, setMessage] = useState("");
-	const wsContext = useContext(WSContext);
+	const route = useRoute();
+	console.log("Input", route.params);
 
-	const onPress = () => {
+	const onPress = async () => {
 		if (message) {
-			wsContext.send(JSON.stringify({ Flag: "targerted", message }));
+			const response = await fetch("http://localhost:8000/chat/new", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					Message: message,
+					ConversationID: route.params?.id,
+					From: auth.User.ID,
+				}),
+			});
+
+			if (response.ok && response.status === 201) {
+				await response.text();
+				props.setMessages([...props.messages, message]);
+				setMessage("");
+			}
 		}
 	};
 

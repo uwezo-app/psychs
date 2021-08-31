@@ -4,15 +4,18 @@ import { View, Text } from "react-native";
 import moment from "moment";
 import styles from "./styles";
 
+import AuthContext from "../../context/auth/context";
+
 export type ChatMessageProps = {
-	message: Message;
+	message: any;
 };
 
 const ChatMessage = (props: ChatMessageProps) => {
 	const { message } = props;
+	const authCtx = React.useContext(AuthContext);
 
 	const isMyMessage = () => {
-		return message.user.id == "u1";
+		return message.From == authCtx.User.ID;
 	};
 
 	return (
@@ -27,11 +30,13 @@ const ChatMessage = (props: ChatMessageProps) => {
 					},
 				]}
 			>
-				{!isMyMessage() && <Text style={styles.name}>{message.user.name}</Text>}
-				<Text style={styles.message}>{message.content}</Text>
-				<Text style={styles.time}>
-					{moment(message.createdAt as any).fromNow()}
-				</Text>
+				{!isMyMessage() && (
+					<Text style={styles.name}>
+						{authCtx.User.FirstName + " " + authCtx.User.LastName}
+					</Text>
+				)}
+				<Text style={styles.message}>{message.Message}</Text>
+				<Text style={styles.time}>{moment(message.SentAt).fromNow()}</Text>
 			</View>
 		</View>
 	);
